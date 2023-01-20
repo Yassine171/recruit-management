@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +31,19 @@ Route::group([
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
 });
+
+
+Route::group(['middleware' => 'api'], function ($router) {
+    Route::resource('/categories', CategoryController::class);
+    Route::resource('/applications', ApplicationController::class);
+
+
+});
+
+//without resource
+
+//home
+Route::get('/home',[HomeController::class,'index']);
+Route::get('/home/browse',[HomeController::class,'getALlJobs']);
+
+Route::get('/home/{slug}',[HomeController::class,'getSingleJobDetails']);
